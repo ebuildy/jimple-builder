@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+const JimpleBuilder = require('../src/JimpleBuilder.js');
+const builder = new JimpleBuilder();
+const argInputs = [];
+
+var argOutput = null;
+
+if (process.argv.length < 4)
+{
+	console.log('Usage: jimpleBuilder inputFilePath.yml outputFile.js');
+
+	process.exit(0);
+}
+
+for (var i = 2; i < process.argv.length - 2; i++)
+{
+	argInputs.push(process.argv[i]);
+}
+
+argOutput = process.argv[process.argv.length - 1];
+
+argInputs.forEach(function(value)
+{
+	builder.parseFile(value);
+});
+
+builder.build(argOutput);
+
+console.log(argOutput + " has been written!");

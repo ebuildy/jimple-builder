@@ -41,18 +41,17 @@
     "istanbul": "^0.4.2",
     "jimple": "^1.4.0",
     "karma": "^0.13.21",
-    "karma-browserify": "^5.0.2",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.2",
     "karma-spec-reporter": "0.0.24",
     "mocha": "^2.4.5"
   },
+    "bin": {
+        "jimple-build": "./bin/jimpleBuilder"
+    },
   "engines": {
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "glob": "^7.0.3",
     "yamljs": "^0.2.7"
   }
 }
