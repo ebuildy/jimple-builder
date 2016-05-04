@@ -56,7 +56,7 @@ module.exports = container;`);
 
             const container = require(__dirname + '/test1.js');
 
-            const service = container.get('prefix1.prefix2.service2');
+            //const service = container.get('prefix1.prefix2.service2');
 
             //expect(container.get("config.prefix1.config1")).to.be("toto");
         });
