@@ -3,8 +3,8 @@ Build NodeJS Jimple (https://github.com/fjorgemota/jimple) container from YML (s
 
 <!> For ES6 class only <!>
 
+[![Build Status](https://travis-ci.org/ebuildy/jimple-builder.svg?branch=master)](https://travis-ci.org/ebuildy/jimple-builder)
 [![Code Climate](https://codeclimate.com/github/ebuildy/jimple-builder/badges/gpa.svg)](https://codeclimate.com/github/ebuildy/jimple-builder)
-
 [![Test Coverage](https://codeclimate.com/github/ebuildy/jimple-builder/badges/coverage.svg)](https://codeclimate.com/github/ebuildy/jimple-builder/coverage)
 
 # Example
