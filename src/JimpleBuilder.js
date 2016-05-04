@@ -1,5 +1,8 @@
 "use strict";
 
+const YAML = require('yamljs');
+const FS = require('fs');
+
 class JimpleBuilder
 {
     constructor(root)
@@ -8,13 +11,25 @@ class JimpleBuilder
         this.services = {};
     }
 
-    parseYAMLFile(file)
+    parseFile(file)
     {
         const buffer = YAML.load(file);
 
-        if (buffer.hasOwnProperty('config'))
+        return this.parseObject(buffer);
+    }
+
+    parseString(str)
+    {
+        const buffer = YAML.parse(str);
+
+        return this.parseObject(buffer);
+    }
+
+    parseObject(obg)
+    {
+        if (obg.hasOwnProperty('config'))
         {
-            var config = JSON.flatten(buffer.config, '.');
+            var config = JSON.flatten(obg.config, '.');
 
             for (var configKey in config)
             {
@@ -25,9 +40,9 @@ class JimpleBuilder
             }
         }
 
-        if (buffer.hasOwnProperty('services'))
+        if (obg.hasOwnProperty('services'))
         {
-            var services = JSON.flatten(buffer.services, '.');
+            var services = JSON.flatten(obg.services, '.');
 
             for (var serviceKey in services)
             {
@@ -35,23 +50,8 @@ class JimpleBuilder
                 this.services[serviceKey].type = 'services';
             }
         }
-    }
 
-    parseDirectoryWithAnnotations(folder)
-    {
-        glob.sync(folder + "/**/*.js").forEach((file) =>
-        {
-            this.parseFile(file);
-        });
-    }
-
-    parseFile(file)
-    {
-        var uri = file.replace(ROOT, '').replace('.js', '').trim().substr(1);
-
-        this.services[uri] = {
-            type : 'service'
-        };
+        return this;
     }
 
     build(file)
@@ -86,7 +86,7 @@ class JimpleBuilder
                 {
                     for (var i = 0; i < service.arguments.length; i++)
                     {
-                        buffer += resolveArgument(service.arguments[i]);
+                        buffer += this.resolveArgument(service.arguments[i]);
 
                         if (i < service.arguments.length - 1) buffer += ',';
                     }
@@ -104,7 +104,7 @@ class JimpleBuilder
                         {
                             call[1].map((arg, i, arr) =>
                             {
-                                buffer += resolveArgument(arg) + ((i < arr.length - 1) ? ',' : '')
+                                buffer += this.resolveArgument(arg) + ((i < arr.length - 1) ? ',' : '')
                             });
                         }
                         
@@ -120,18 +120,29 @@ class JimpleBuilder
 
         buffer += 'module.exports = container;';
 
-        FS.writeFileSync(file, buffer);
-
-        function resolveArgument(arg)
+        if (typeof file === 'undefined' || file === false || file === null)
         {
-            if (arg[0] === '@')
-            {
-                return 'c.get("' + arg.substr(1) + '")'
-            }
-            else
-            {
-                return arg
-            }
+            return buffer;
+        }
+        else
+        {
+            FS.writeFileSync(file, buffer);
+        }
+    }
+
+    resolveArgument(arg)
+    {
+        if (arg[0] === '@')
+        {
+            return 'c.get("' + arg.substr(1) + '")'
+        }
+        else if (typeof arg === "string")
+        {
+            return JSON.stringify(arg);
+        }
+        else
+        {
+            return arg;
         }
     }
 }

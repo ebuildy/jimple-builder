@@ -1,0 +1,16 @@
+config:
+  prefix1:
+    config1: toto
+
+services:
+
+  prefix1:
+
+    prefix2:
+
+      service1:
+        class: class/service1
+
+      service2:
+        class: class/service2
+        arguments: ["@prefix1.prefix2.service1", "@config.prefix1.config1", "toto"]
