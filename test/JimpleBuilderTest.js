@@ -33,7 +33,6 @@ module.exports = container;`);
 
         it("should parseString", function ()
         {
-
             var containerSrc = new JimpleBuilder().parseString("config:\n    config1: toto").build();
 
             eval(containerSrc);
@@ -43,23 +42,11 @@ module.exports = container;`);
 
         it("should write file", function ()
         {
-
             new JimpleBuilder().parseFile(__dirname + '/a.yml').build(__dirname + '/test1.js');
 
             const container = require(__dirname + '/test1.js');
 
             expect(container.get("config.prefix1.config1")).to.be("toto");
         });
-
-        it("should write arguments", function ()
-        {
-
-            const container = require(__dirname + '/test1.js');
-
-            //const service = container.get('prefix1.prefix2.service2');
-
-            //expect(container.get("config.prefix1.config1")).to.be("toto");
-        });
-
     });
 });

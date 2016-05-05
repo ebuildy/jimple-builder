@@ -8,12 +8,12 @@ var argOutput = null;
 
 if (process.argv.length < 4)
 {
-	console.log('Usage: jimpleBuilder inputFilePath.yml outputFile.js');
+	console.log('Usage: jimpleBuilder inputFilePath.yml [inputFilePath2.yml ...] outputFile.js');
 
 	process.exit(0);
 }
 
-for (var i = 2; i < process.argv.length - 2; i++)
+for (var i = 2; i < process.argv.length - 1; i++)
 {
 	argInputs.push(process.argv[i]);
 }
