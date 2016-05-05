@@ -33,6 +33,10 @@ services:
         - ["addMiddleware", ["@doxer.middlewares.api"]]
 ```
 
+Execute CLI:
+
+    ./bin/jimpleBuilder ./config/input.yml ./src/container.js
+
 This will generate:
 
 ```js
